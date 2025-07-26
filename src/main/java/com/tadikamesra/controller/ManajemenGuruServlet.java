@@ -15,13 +15,13 @@ public class ManajemenGuruServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        guruDAO = new GuruDAO(); // Inisialisasi DAO
+        guruDAO = new GuruDAO();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Guru> daftarGuru = guruDAO.getAllGuru();
+        List<Guru> daftarGuru = guruDAO.getAll();
         request.setAttribute("daftarGuru", daftarGuru);
         request.getRequestDispatcher("/manajemenGuru.jsp").forward(request, response);
     }
@@ -30,45 +30,79 @@ public class ManajemenGuruServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-
         String action = request.getParameter("action");
 
+        boolean success = true;
+        String error = null;
+
         if ("add".equalsIgnoreCase(action)) {
-            tambahGuru(request);
+            success = tambahGuru(request);
+            if (!success) error = "NIP sudah digunakan.";
         } else if ("edit".equalsIgnoreCase(action)) {
-            editGuru(request);
+            success = editGuru(request);
+            if (!success) error = "NIP sudah digunakan oleh guru lain.";
         } else if ("delete".equalsIgnoreCase(action)) {
             hapusGuru(request);
         }
 
-        response.sendRedirect("guru");
+        if (!success) {
+            List<Guru> daftarGuru = guruDAO.getAll();
+            request.setAttribute("daftarGuru", daftarGuru);
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("/manajemenGuru.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("guru");
+        }
+        
     }
 
-    private void tambahGuru(HttpServletRequest request) {
+    private boolean tambahGuru(HttpServletRequest request) {
+        String nip = request.getParameter("nip");
+        if (!guruDAO.isNipUnique(nip, null)) return false;
+
         Guru guru = new Guru();
         guru.setNama(request.getParameter("nama"));
-        guru.setNip(request.getParameter("nip"));
+        guru.setNip(nip);
         guru.setUsername(request.getParameter("username"));
         guru.setPassword(request.getParameter("password"));
         guru.setMataPelajaran(request.getParameter("mata_pelajaran"));
-        guru.setWaliKelas(request.getParameter("wali_kelas"));
+
+        String waliKelas = request.getParameter("wali_kelas");
+        guru.setWaliKelas(waliKelas != null && !waliKelas.trim().isEmpty() ? waliKelas : null);
+
         guruDAO.insert(guru);
+        return true;
     }
 
-    private void editGuru(HttpServletRequest request) {
-        Guru guru = new Guru();
-        guru.setId(Integer.parseInt(request.getParameter("id")));
-        guru.setNama(request.getParameter("nama"));
-        guru.setNip(request.getParameter("nip"));
-        guru.setUsername(request.getParameter("username"));
-        guru.setPassword(request.getParameter("password")); // Bisa kosong
-        guru.setMataPelajaran(request.getParameter("mata_pelajaran"));
-        guru.setWaliKelas(request.getParameter("wali_kelas"));
-        guruDAO.update(guru);
-    }
-
-    private void hapusGuru(HttpServletRequest request) {
+    private boolean editGuru(HttpServletRequest request) {
         int id = Integer.parseInt(request.getParameter("id"));
-        guruDAO.delete(id);
+        String nip = request.getParameter("nip");
+        if (!guruDAO.isNipUnique(nip, id)) return false;
+
+        Guru guru = new Guru();
+        guru.setId(id);
+        guru.setNama(request.getParameter("nama"));
+        guru.setNip(nip);
+        guru.setUsername(request.getParameter("username"));
+
+        String password = request.getParameter("password");
+        guru.setPassword(password != null && !password.trim().isEmpty() ? password : null);
+
+        guru.setMataPelajaran(request.getParameter("mata_pelajaran"));
+
+        String waliKelas = request.getParameter("wali_kelas");
+        guru.setWaliKelas(waliKelas != null && !waliKelas.trim().isEmpty() ? waliKelas : null);
+
+        guruDAO.update(guru);
+        return true;
     }
+
+        private void hapusGuru(HttpServletRequest request) {
+            String idParam = request.getParameter("id");
+            if (idParam != null && !idParam.isEmpty()) {
+                int id = Integer.parseInt(idParam);
+                guruDAO.delete(id); // Pastikan ini dipanggil
+            }
+        }
+
 }

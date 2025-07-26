@@ -9,17 +9,17 @@ import java.util.List;
 
 public class GuruDAO {
 
-    public List<Guru> getAllGuru() {
+    public List<Guru> getAll() {
         List<Guru> list = new ArrayList<>();
         String sql = "SELECT * FROM guru";
 
         try (Connection conn = DBConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Guru g = new Guru();
-                g.setId(rs.getInt("id"));
+                g.setId(rs.getInt("id_guru"));
                 g.setNama(rs.getString("nama"));
                 g.setNip(rs.getString("nip"));
                 g.setUsername(rs.getString("username"));
@@ -28,39 +28,12 @@ public class GuruDAO {
                 g.setWaliKelas(rs.getString("wali_kelas"));
                 list.add(g);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return list;
     }
-    
-    public List<Guru> getAll() {
-    List<Guru> list = new ArrayList<>();
-    String sql = "SELECT * FROM guru";
-
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
-
-        while (rs.next()) {
-            Guru g = new Guru();
-            g.setId(rs.getInt("id_guru"));
-            g.setNama(rs.getString("nama"));
-            g.setNip(rs.getString("nip"));
-            g.setUsername(rs.getString("username"));
-            g.setMataPelajaran(rs.getString("mata_pelajaran"));
-            g.setWaliKelas(rs.getString("wali_kelas"));
-            list.add(g);
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-
-    return list;
-}
-   
 
     public void insert(Guru g) {
         String sql = "INSERT INTO guru (nama, nip, username, password, mata_pelajaran, wali_kelas) VALUES (?, ?, ?, ?, ?, ?)";
@@ -87,9 +60,9 @@ public class GuruDAO {
         String sql;
 
         if (updatePassword) {
-            sql = "UPDATE guru SET nama=?, nip=?, username=?, password=?, mata_pelajaran=?, wali_kelas=? WHERE id=?";
+            sql = "UPDATE guru SET nama=?, nip=?, username=?, password=?, mata_pelajaran=?, wali_kelas=? WHERE id_guru=?";
         } else {
-            sql = "UPDATE guru SET nama=?, nip=?, username=?, mata_pelajaran=?, wali_kelas=? WHERE id=?";
+            sql = "UPDATE guru SET nama=?, nip=?, username=?, mata_pelajaran=?, wali_kelas=? WHERE id_guru=?";
         }
 
         try (Connection conn = DBConnection.getConnection();
@@ -117,17 +90,54 @@ public class GuruDAO {
         }
     }
 
-    public void delete(int id) {
-        String sql = "DELETE FROM guru WHERE id=?";
+        public boolean delete(int id) {
+            String query = "DELETE FROM guru WHERE id_guru = ?";
+            try (Connection conn = DBConnection.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.setInt(1, id);
+                int result = stmt.executeUpdate();
+                return result > 0; // return true jika berhasil
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
 
+
+    public boolean isNipExist(String nip, Integer excludeId) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM guru WHERE nip = ?" + (excludeId != null ? " AND id_guru != ?" : "");
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
+            stmt.setString(1, nip);
+            if (excludeId != null) {
+                stmt.setInt(2, excludeId);
+            }
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
+
+    public boolean isNipUnique(String nip, Integer excludeId) {
+        String sql = "SELECT COUNT(*) FROM guru WHERE nip = ?" + (excludeId != null ? " AND id_guru != ?" : "");
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nip);
+            if (excludeId != null) {
+                stmt.setInt(2, excludeId);
+            }
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) == 0;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return false;
     }
 }
