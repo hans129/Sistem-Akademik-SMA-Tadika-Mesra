@@ -5,11 +5,10 @@ public class Guru {
     private String nama;
     private String nip;
     private String username;
-    private String password;
     private String mataPelajaran;
     private String waliKelas;
 
-    // Getter dan Setter
+    // Getters dan Setters
 
     public int getId() {
         return id;
@@ -41,14 +40,6 @@ public class Guru {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getMataPelajaran() {

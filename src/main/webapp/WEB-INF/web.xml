@@ -21,14 +21,7 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
     
-    <servlet>
-        <servlet-name>Beranda</servlet-name>
-        <jsp-file>/beranda.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Beranda</servlet-name>
-        <url-pattern>/beranda.jsp</url-pattern>
-    </servlet-mapping>
+    
 
     <!-- Servlet untuk Manajemen Guru -->
     <servlet>
@@ -38,7 +31,7 @@
 
     <servlet-mapping>
         <servlet-name>ManajemenGuruServlet</servlet-name>
-        <url-pattern>/manajemenGuru</url-pattern>
+        <url-pattern>/admin/manajemenguru</url-pattern>
     </servlet-mapping>
     
         <!-- Servlet untuk beranda Guru -->

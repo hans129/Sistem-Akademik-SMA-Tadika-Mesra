@@ -20,7 +20,7 @@ import java.sql.Statement;
  *
  * @author Muhamad Suwandi
  */
-@WebServlet("/admin/dashboard")
+
 public class DashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

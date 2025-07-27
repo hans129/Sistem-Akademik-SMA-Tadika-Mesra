@@ -1,155 +1,119 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.tadikamesra.model.User" %>
+<%
+    User user = (User) session.getAttribute("user");
+%>
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Guru</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
-    body { display: flex; height: 100vh; background: #f9f3f3; }
-
-    /* Sidebar */
-    .sidebar {
-      width: 240px;
-      background: #353A40;
-      color: white;
-      padding: 60px 20px 20px; /* padding top ditambah agar sejajar header */
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    
-    .sidebar .brand {
-      display: flex;
-      flex-direction: row; /* sejajarkan logo dan teks */
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 0 0 30px; /* hilangkan margin atas, beri bawah */
-    }
-    .sidebar .brand img {
-      width: 40px;
-      height: 40px;
-    }
-    .sidebar .brand h1 {
-      font-size: 18px;
-      font-weight: bold;
-      line-height: 1.2;
-      text-align: left;
-    }
-    .sidebar nav a {
-        display: flex;
-        align-items: center;
-        padding: 12px 16px 12px 20px;
-        color: white;
-        text-decoration: none;
-        border-radius: 0 10px 10px 0;
-        margin-bottom: 10px;
-        transition: background 0.3s;
-        position: relative;
-    }
-    
-    .sidebar nav a::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 10%;
-        height: 80%;
-        width: 6px;
-        background: transparent;
-        border-radius: 10px;
-        transition: background 0.3s;
-    }
-
-    .sidebar nav a.active::before {
-        background: white;
-    }
-
-    .sidebar nav a.active,
-    .sidebar nav a:hover {
-      background: #4C545C;
-    }
-    .sidebar nav a i {
-      width: 20px;
-      margin-right: 10px;
-    }
-
-    /* Header */
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .header {
-      height: 60px;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      border-bottom: 1px solid #ddd;
-    }
-    .header .menu-icon {
-      font-size: 20px;
-      color: #777;
-    }
-    .header .user {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #777;
-      font-weight: 500;
-    }
-
-    /* Content */
-    .content {
-      padding: 40px;
-      flex: 1;
-    }
-    .card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      height: 100%;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Dashboard Guru</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            height: 100vh;
+            background-color: #343a40;
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: white;
+        }
+        .sidebar .nav-link.active, .sidebar .nav-link:hover {
+            background-color: #495057;
+        }
+        .header {
+            height: 60px;
+            background-color: white;
+            border-bottom: 1px solid #dee2e6;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+        }
+        .hamburger {
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .username-dropdown {
+            position: relative;
+        }
+    </style>
 </head>
 <body>
-  <div class="sidebar">
-    <div>
-      <div class="brand">
-        <img src="${pageContext.request.contextPath}/assets/LogoSTM.png" alt="Logo Tadika Mesra">
-        <h1>Tadika<br>Mesra</h1>
-      </div>
-      <nav>
-            <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i> Beranda</a>
-            <a href="#" class="nav-item"><i class="fa-solid fa-calendar-days"></i> Jadwal Mengajar</a>
-            <a href="#" class="nav-item"><i class="fa-solid fa-file-lines"></i> Rekap Nilai</a>
-            <a href="#" class="nav-item"><i class="fa-solid fa-users"></i> Daftar Siswa</a>
-            <a href="#" class="nav-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-      </nav>
+<div class="d-flex">
+    <!-- Sidebar -->
+    <div class="sidebar p-3" style="width: 240px;">
+        <div class="d-flex align-items-center mb-4">
+            <img src="${pageContext.request.contextPath}/assets/LogoSTM.png" alt="Logo" width="40" height="40" class="me-2">
+            <div>
+                <strong>SMA</strong><br>Tadika Mesra
+            </div>
+        </div>
+        <ul class="nav nav-pills flex-column">
+            <li class="nav-item">
+                <a href="${pageContext.request.contextPath}/dashboardGuru" class="nav-link active">
+                    <i class="fa-solid fa-house me-2"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-calendar-days me-2"></i> Jadwal Mengajar
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-file-lines me-2"></i> Rekap Nilai
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-users me-2"></i> Daftar Siswa
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="${pageContext.request.contextPath}/logout" class="nav-link">
+                    <i class="fa-solid fa-right-from-bracket me-2"></i> Logout
+                </a>
+            </li>
+        </ul>
     </div>
-  </div>
-  <div class="main">
-    <div class="header">
-      <div class="menu-icon"><i class="fa-solid fa-bars"></i> Beranda </div>
-      <div class="user"><i class="fa-solid fa-user"></i> Prof. Jhon Sunandar</div>
-    </div>
-    <div class="content">
-      <div class="card"></div>
-    </div>
-  </div>
-  <script>
-  const navItems = document.querySelectorAll('.sidebar nav .nav-item');
 
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-           navItems.forEach(i => i.classList.remove('active'));
-           item.classList.add('active');
-        });
-    });
-  </script>
+    <!-- Main Content -->
+    <div class="flex-grow-1">
+        <!-- Header -->
+        <div class="header">
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-bars me-3 hamburger"></i>
+                <h5 class="mb-0">Dashboard Guru</h5>
+            </div>
+            <div class="dropdown">
+                <a class="text-decoration-none text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                    <i class="fa-solid fa-user me-1"></i> <%= user != null ? user.getUsername() : "Guru" %>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#">Profil</a></li>
+                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="container-fluid p-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Selamat datang di Dashboard Guru</h5>
+                    <p class="card-text">Ini adalah halaman utama guru. Silakan pilih menu di samping untuk mulai menggunakan sistem.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
