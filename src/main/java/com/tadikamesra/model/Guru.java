@@ -1,21 +1,21 @@
 package com.tadikamesra.model;
 
 public class Guru {
-    private int id;
+    private int guruId;
     private String nama;
     private String nip;
-    private String username;
-    private String mataPelajaran;
-    private String waliKelas;
+    private int userId; // tambahkan ini jika belum ada
 
-    // Getters dan Setters
+    // Constructor
+    public Guru() {}
 
-    public int getId() {
-        return id;
+    // Getter dan Setter
+    public int getGuruId() {
+        return guruId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setGuruId(int guruId) {
+        this.guruId = guruId;
     }
 
     public String getNama() {
@@ -34,27 +34,11 @@ public class Guru {
         this.nip = nip;
     }
 
-    public String getUsername() {
-        return username;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getMataPelajaran() {
-        return mataPelajaran;
-    }
-
-    public void setMataPelajaran(String mataPelajaran) {
-        this.mataPelajaran = mataPelajaran;
-    }
-
-    public String getWaliKelas() {
-        return waliKelas;
-    }
-
-    public void setWaliKelas(String waliKelas) {
-        this.waliKelas = waliKelas;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

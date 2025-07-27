@@ -24,15 +24,15 @@
     
 
     <!-- Servlet untuk Manajemen Guru -->
-    <servlet>
-        <servlet-name>ManajemenGuruServlet</servlet-name>
-        <servlet-class>com.tadikamesra.controller.ManajemenGuruServlet</servlet-class>
-    </servlet>
+        <servlet>
+            <servlet-name>ManajemenGuruServlet</servlet-name>
+            <servlet-class>com.tadikamesra.controller.ManajemenGuruServlet</servlet-class>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>ManajemenGuruServlet</servlet-name>
+            <url-pattern>/admin/manajemenguru</url-pattern>
+        </servlet-mapping>
 
-    <servlet-mapping>
-        <servlet-name>ManajemenGuruServlet</servlet-name>
-        <url-pattern>/admin/manajemenguru</url-pattern>
-    </servlet-mapping>
     
         <!-- Servlet untuk beranda Guru -->
         <servlet>
@@ -56,5 +56,17 @@
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/manajemenGuru</url-pattern>
     </filter-mapping>
+
+    <!-- Servlet Logout -->
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>com.tadikamesra.controller.LogoutServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

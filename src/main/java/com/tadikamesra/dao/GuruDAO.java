@@ -1,7 +1,7 @@
 package com.tadikamesra.dao;
 
-import com.tadikamesra.model.Guru;
 import com.tadikamesra.controller.DBConnection;
+import com.tadikamesra.model.Guru;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,15 +11,7 @@ public class GuruDAO {
 
     public List<Guru> getAll() {
         List<Guru> list = new ArrayList<>();
-        String sql = "SELECT " +
-                     "g.guru_id, g.nama, g.nip, " +
-                     "u.username, " +
-                     "mp.nama_mapel, " +
-                     "k.nama_kelas " +
-                     "FROM guru g " +
-                     "LEFT JOIN users u ON g.user_id = u.user_id " +
-                     "LEFT JOIN mata_pelajaran mp ON g.mapel_id = mp.mapel_id " +
-                     "LEFT JOIN kelas k ON g.guru_id = k.wali_kelas_id";
+        String sql = "SELECT * FROM guru";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -27,41 +19,46 @@ public class GuruDAO {
 
             while (rs.next()) {
                 Guru guru = new Guru();
-                guru.setId(rs.getInt("guru_id"));
+                guru.setGuruId(rs.getInt("guru_id"));
                 guru.setNama(rs.getString("nama"));
                 guru.setNip(rs.getString("nip"));
-                guru.setUsername(rs.getString("username"));
-                guru.setMataPelajaran(rs.getString("nama_mapel"));
-                guru.setWaliKelas(rs.getString("nama_kelas"));
+                guru.setUserId(rs.getInt("user_id")); // Pastikan ini ada!
                 list.add(guru);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return list;
     }
-    
-    public List<String> getAllNamaMapel() {
-    List<String> list = new ArrayList<>();
-    String sql = "SELECT nama_mapel FROM mata_pelajaran";
 
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
+    public void insert(Guru guru) {
+        String sql = "INSERT INTO guru (nama, nip, user_id) VALUES (?, ?, ?)";
 
-        while (rs.next()) {
-            list.add(rs.getString("nama_mapel"));
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, guru.getNama());
+            stmt.setString(2, guru.getNip());
+            stmt.setInt(3, guru.getUserId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
     }
 
-    return list;
-}
+    public void delete(int guruId) {
+        String sql = "DELETE FROM guru WHERE guru_id = ?";
 
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-    // Tambahkan insert, update, delete, dan isNipUnique nanti jika perlu
+            stmt.setInt(1, guruId);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Tambahkan update() kalau nanti edit guru
 }

@@ -109,7 +109,7 @@
       <a href="#" class="nav-item"><i class="fa-solid fa-user-graduate"></i> Manajemen Siswa</a>
       <a href="${pageContext.request.contextPath}/admin/manajemenguru" class="nav-item"><i class="fa-solid fa-user-tie"></i> Manajemen Guru</a>
       <a href="#" class="nav-item"><i class="fa-solid fa-file-lines"></i> Manajemen Laporan Akademik</a>
-      <a href="#" class="nav-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+      <a href="#" onclick="return confirmLogout();" class="nav-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
     </nav>
   </div>
 
@@ -189,6 +189,12 @@
     sidebar.classList.toggle('hidden');
     main.classList.toggle('full');
   }
+  
+  function confirmLogout() {
+  if (confirm("Yakin ingin logout?")) {
+    window.location.href = "${pageContext.request.contextPath}/logout";
+  }
+}
 </script>
 
 </body>
