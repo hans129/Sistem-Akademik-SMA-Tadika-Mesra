@@ -2,15 +2,17 @@ package com.tadikamesra.controller;
 
 import com.tadikamesra.model.User;
 import com.tadikamesra.dao.UserDAO;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 public class LoginServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+        protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -28,19 +30,18 @@ public class LoginServlet extends HttpServlet {
 
                 switch (user.getRole()) {
                     case "admin":
-                        response.sendRedirect(request.getContextPath() + "/admin/beranda");
+                        response.sendRedirect("admin/BerandaAdmin.jsp");
                         break;
                     case "guru":
-                        response.sendRedirect(request.getContextPath() + "/beranda-guru");
+                        response.sendRedirect("guru/BerandaGuru.jsp");
                         break;
                     case "siswa":
-                        response.sendRedirect(request.getContextPath() + "/beranda-siswa");
+                        response.sendRedirect("siswa/BerandaSiswa.jsp");
                         break;
                     default:
                         response.sendRedirect("error.jsp");
                 }
             } else {
-                // Jika login gagal, kembali ke login.jsp
                 request.setAttribute("error", "Username atau Password salah.");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }

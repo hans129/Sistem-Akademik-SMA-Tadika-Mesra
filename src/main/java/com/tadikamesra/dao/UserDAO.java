@@ -14,41 +14,20 @@ public class UserDAO {
     }
 
     public User login(String username, String password) throws SQLException {
-    User user = null;
+        String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, username);
+        stmt.setString(2, password); // hashing nanti disarankan
+        ResultSet rs = stmt.executeQuery();
 
-    // Cek di tabel admin
-    String adminSQL = "SELECT * FROM admin WHERE username = ? AND password = ?";
-    PreparedStatement stmt = conn.prepareStatement(adminSQL);
-    stmt.setString(1, username);
-    stmt.setString(2, password);
-    ResultSet rs = stmt.executeQuery();
-    if (rs.next()) {
-        user = new User(rs.getInt("id_admin"), rs.getString("username"), rs.getString("password"), "admin");
-        return user;
+        if (rs.next()) {
+            return new User(
+                rs.getInt("user_id"),              // <- disesuaikan
+                rs.getString("username"),
+                rs.getString("password"),
+                rs.getString("role")
+            );
+        }
+        return null;
     }
-
-    // Cek di tabel guru
-    String guruSQL = "SELECT * FROM guru WHERE username = ? AND password = ?";
-    stmt = conn.prepareStatement(guruSQL);
-    stmt.setString(1, username);
-    stmt.setString(2, password);
-    rs = stmt.executeQuery();
-    if (rs.next()) {
-        user = new User(rs.getInt("id_guru"), rs.getString("username"), rs.getString("password"), "guru");
-        return user;
-    }
-
-    // Cek di tabel siswa
-    String siswaSQL = "SELECT * FROM siswa WHERE username = ? AND password = ?";
-    stmt = conn.prepareStatement(siswaSQL);
-    stmt.setString(1, username);
-    stmt.setString(2, password);
-    rs = stmt.executeQuery();
-    if (rs.next()) {
-        user = new User(rs.getInt("id_siswa"), rs.getString("username"), rs.getString("password"), "siswa");
-        return user;
-    }
-
-    return null;
-}
 }

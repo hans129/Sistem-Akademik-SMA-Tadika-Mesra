@@ -1,6 +1,4 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -90,10 +88,6 @@
         <img src="${pageContext.request.contextPath}/assets/LogoSTM.png" alt="Logo SMA">
         <h2>SMA Tadika Mesra</h2>
         <p>Silakan login menggunakan Username dan Kata Sandi anda.</p>
-        <c:if test="${not empty error}">
-    <p style="color: red; margin-bottom: 20px;">${error}</p>
-</c:if>
-
 
         <form method="post" action="${pageContext.request.contextPath}/login">
             <div class="form-group">

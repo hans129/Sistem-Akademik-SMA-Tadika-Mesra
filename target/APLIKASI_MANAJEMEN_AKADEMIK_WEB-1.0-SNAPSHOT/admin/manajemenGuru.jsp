@@ -172,8 +172,8 @@
     }
   </style>
 </head>
-<body class="p-5">
-    
+<body class="p-5"> 
+
     <div class="wrapper">
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
@@ -193,11 +193,12 @@
                 </nav>
             </div>
         </div>
+    
 
 <!-- Main -->
   <div class="main" id="main">
     <div class="header">
-      <span class="menu-toggle" id="menu-toggle"><i class="fa-solid fa-bars"></i> Dashboard</span>
+      <span class="menu-toggle" id="menu-toggle"><i class="fa-solid fa-bars"></i> Manajemen Guru</span>
       <div class="user">👤 <%= username %></div>
     </div>
     <div class="content">
@@ -280,6 +281,10 @@
     <% } %>
   </tbody>
 </table>
+  </div>
+  </div>
+  </div>
+</body>
 
 <!-- Script Edit -->
 <script>
@@ -306,5 +311,6 @@ function editGuru(id, nama, nip, username, mataPelajaran, waliKelas) {
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+</div>
+ 
 </html>

@@ -26,7 +26,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <style>
+    <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
     body { background: #f9f3f3; }
 
@@ -58,11 +58,11 @@
 
     .sidebar .brand {
       display: flex;
-      flex-direction: row;
+      flex-direction: row; /* sejajarkan logo dan teks */
       align-items: center;
       justify-content: center;
       gap: 10px;
-      margin-bottom: 30px;
+      margin: 0 0 30px; /* hilangkan margin atas, beri bawah */
     }
 
     .sidebar .brand img {
@@ -74,6 +74,7 @@
       font-size: 18px;
       font-weight: bold;
       line-height: 1.2;
+      text-align: left;
     }
 
     .sidebar nav a {
@@ -87,7 +88,19 @@
       transition: background 0.3s;
       position: relative;
     }
-
+    
+    .sidebar nav a::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 10%;
+        height: 80%;
+        width: 6px;
+        background: transparent;
+        border-radius: 10px;
+        transition: background 0.3s;
+    }
+    
     .sidebar nav a.active::before {
       background: white;
     }
@@ -165,90 +178,91 @@
     }
   </style>
 </head>
-<body>
+<body class="p-5"> 
 
-<div class="wrapper">
-  <!-- Sidebar -->
-  <div class="sidebar" id="sidebar">
-    <div>
-      <div class="brand">
-        <img src="${pageContext.request.contextPath}/assets/LogoSTM.png" alt="Logo Tadika Mesra">
-        <h1>Tadika<br>Mesra</h1>
-      </div>
-      <nav>
-        <a href="<%= request.getContextPath() %>/admin/beranda"><i class="fa-solid fa-house"></i>Beranda</a>
-        <a href="#"><i class="fa-solid fa-envelope"></i> Manajemen Pengumuman</a>
-        <a href="#"><i class="fa-solid fa-calendar-days"></i> Manajemen Jadwal</a>
-        <a href="#"><i class="fa-solid fa-user-graduate"></i> Manajemen Siswa</a>
-        <a href="${pageContext.request.contextPath}/admin/guru" class="nav-item"><i class="fa-solid fa-user-tie"></i> Manajemen Guru</a>
-        <a href="#"><i class="fa-solid fa-file-lines"></i> Manajemen Laporan Akademik</a>
-        <a href="#"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-      </nav>
-    </div>
-  </div>
-
-  <!-- Main -->
-  <div class="main" id="main">
-    <div class="header">
-      <span class="menu-toggle" id="menu-toggle"><i class="fa-solid fa-bars"></i> Dashboard</span>
-      <div class="user">👤 <%= username %></div>
-    </div>
-    <div class="content">
-  <div class="p-4">
-    <h5>Selamat datang, <strong><%= username %></strong></h5>
-
-    <div class="row my-4">
-      <div class="col-md-3">
-        <div class="card text-white bg-primary shadow">
-          <div class="card-body">Total Siswa: ${countSiswa}</div>
+    <div class="wrapper">
+    <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div>
+                <div class="brand">
+                    <img src="${pageContext.request.contextPath}/assets/LogoSTM.png" alt="Logo Tadika Mesra">
+                    <h1>Tadika<br>Mesra</h1>
+                </div>
+                <nav>
+                    <a href="<%= request.getContextPath()%>/admin/beranda" class="nav-item active"><i class="fa-solid fa-house"></i>Beranda</a>
+                    <a href="#" class="nav-item"><i class="fa-solid fa-envelope"></i> Manajemen Pengumuman</a>
+                    <a href="#" class="nav-item"><i class="fa-solid fa-calendar-days"></i> Manajemen Jadwal</a>
+                    <a href="#" class="nav-item"><i class="fa-solid fa-user-graduate"></i> Manajemen Siswa</a>
+                    <a href="${pageContext.request.contextPath}/admin/guru" class="nav-item"><i class="fa-solid fa-user-tie"></i> Manajemen Guru</a>
+                    <a href="#" class="nav-item"><i class="fa-solid fa-file-lines"></i> Manajemen Laporan Akademik</a>
+                    <a href="#" class="nav-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                </nav>
+            </div>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card text-white bg-success shadow">
-          <div class="card-body">Total Guru: ${countGuru}</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card text-white bg-warning shadow">
-          <div class="card-body">Pengumuman Aktif: ${countPengumuman}</div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card text-white bg-danger shadow">
-          <div class="card-body">Jadwal Minggu Ini: ${countJadwal}</div>
-        </div>
-      </div>
-    </div>
+                    
+                      <!-- Main -->
+                    <div class="main" id="main">
+                      <div class="header">
+                        <span class="menu-toggle" id="menu-toggle"><i class="fa-solid fa-bars"></i> Dashboard</span>
+                        <div class="user">👤 <%= username %></div>
+                      </div>
+                      <div class="content">
+                    <div class="p-4">
+                      <h5>Selamat datang, <strong><%= username %></strong></h5>
 
-    <div class="card mt-4">
-      <div class="card-header"><strong>Pengumuman Terbaru</strong></div>
-      <div class="card-body p-0">
-        <table class="table table-bordered m-0">
-          <thead class="table-light">
-            <tr>
-              <th>Judul</th>
-              <th>Isi</th>
-              <th>Tanggal</th>
-            </tr>
-          </thead>
-          <tbody>
-            <c:forEach var="p" items="${pengumumanList}">
-              <tr>
-                <td>${p.judul}</td>
-                <td>${p.isi}</td>
-                <td>${p.tanggal}</td>
-              </tr>
-            </c:forEach>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
-  </div>
-</div>
+                      <div class="row my-4">
+                        <div class="col-md-3">
+                          <div class="card text-white bg-primary shadow">
+                            <div class="card-body">Total Siswa: ${countSiswa}</div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="card text-white bg-success shadow">
+                            <div class="card-body">Total Guru: ${countGuru}</div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="card text-white bg-warning shadow">
+                            <div class="card-body">Pengumuman Aktif: ${countPengumuman}</div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="card text-white bg-danger shadow">
+                            <div class="card-body">Jadwal Minggu Ini: ${countJadwal}</div>
+                          </div>
+                        </div>
+                      </div>
 
-<!-- JS Toggle Sidebar -->
+                      <div class="card mt-4">
+                        <div class="card-header"><strong>Pengumuman Terbaru</strong></div>
+                        <div class="card-body p-0">
+                          <table class="table table-bordered m-0">
+                            <thead class="table-light">
+                              <tr>
+                                <th>Judul</th>
+                                <th>Isi</th>
+                                <th>Tanggal</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <c:forEach var="p" items="${pengumumanList}">
+                                <tr>
+                                  <td>${p.judul}</td>
+                                  <td>${p.isi}</td>
+                                  <td>${p.tanggal}</td>
+                                </tr>
+                              </c:forEach>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+    </div>
+</body>
+
+<!-- Script -->
 <script>
   const toggle = document.getElementById('menu-toggle');
   const sidebar = document.getElementById('sidebar');
@@ -259,8 +273,17 @@
     main.classList.toggle('expanded');
 
   });
+  
+  const navItems = document.querySelectorAll('.sidebar nav .nav-item');
+
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+           navItems.forEach(i => i.classList.remove('active'));
+           item.classList.add('active');
+        });
+    });
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+
 </html>
