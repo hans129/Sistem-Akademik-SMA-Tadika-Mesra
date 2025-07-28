@@ -2,6 +2,7 @@ com\tadikamesra\dao\PengumumanDAO.class
 com\tadikamesra\model\LogAktivitas.class
 com\tadikamesra\dao\AdminDAO.class
 com\tadikamesra\dao\JadwalDAO.class
+com\tadikamesra\controller\ManajemenSiswaServlet.class
 com\tadikamesra\controller\PengumumanServlet.class
 com\tadikamesra\model\Pengumuman.class
 com\tadikamesra\dao\MapelDAO.class
@@ -25,9 +26,9 @@ com\tadikamesra\dao\NilaiDAO.class
 com\tadikamesra\model\User.class
 com\mycompany\aplikasi_manajemen_akademik_web\JakartaRestConfiguration.class
 com\tadikamesra\model\Mapel.class
+com\tadikamesra\model\Siswa.class
 com\tadikamesra\controller\JadwalServlet.class
 com\tadikamesra\controller\AuthFilter.class
 com\tadikamesra\controller\KelasServlet.class
 com\tadikamesra\dao\KelasDAO.class
-com\tadikamesra\model\siswa.class
 com\tadikamesra\controller\ManajemenGuruServlet.class

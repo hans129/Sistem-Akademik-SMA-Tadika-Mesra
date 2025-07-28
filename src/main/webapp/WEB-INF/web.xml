@@ -21,7 +21,6 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
     
-    
 
     <!-- Servlet untuk Manajemen Guru -->
         <servlet>

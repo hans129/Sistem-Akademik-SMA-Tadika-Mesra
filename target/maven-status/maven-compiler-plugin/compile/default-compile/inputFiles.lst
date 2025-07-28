@@ -19,13 +19,14 @@ C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\ma
 C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\controller\DashboardServlet.java
 C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\controller\LogoutServlet.java
 C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\controller\NilaiServlet.java
-C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\model\siswa.java
+C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\model\Siswa.java
 C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\controller\PengumumanServlet.java
 C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\controller\JadwalServlet.java
 C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\model\Kelas.java
 C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\controller\ManajemenGuruServlet.java
 C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\dao\AdminDAO.java
 C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\mycompany\aplikasi_manajemen_akademik_web\JakartaRestConfiguration.java
+C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\controller\ManajemenSiswaServlet.java
 C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\dao\PengumumanDAO.java
 C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\model\Nilai.java
 C:\Users\Muhamad Suwandi\Documents\IRPAN\Sistem-Akademik-SMA-Tadika-Mesra\src\main\java\com\tadikamesra\dao\MapelDAO.java

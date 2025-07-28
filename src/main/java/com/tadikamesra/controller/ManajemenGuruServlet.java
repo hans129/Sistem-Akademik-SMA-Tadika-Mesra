@@ -2,14 +2,17 @@ package com.tadikamesra.controller;
 
 import com.tadikamesra.dao.GuruDAO;
 import com.tadikamesra.dao.KelasDAO;
-import com.tadikamesra.dao.MapelDAO;
+import com.tadikamesra.dao.MapelDAO; 
+import com.tadikamesra.dao.UserDAO;
 import com.tadikamesra.model.Guru;
 import com.tadikamesra.model.Kelas;
 import com.tadikamesra.model.Mapel;
+import com.tadikamesra.model.User; 
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.List;
 
 
@@ -18,28 +21,45 @@ public class ManajemenGuruServlet extends HttpServlet {
     private GuruDAO guruDAO;
     private MapelDAO mapelDAO;
     private KelasDAO kelasDAO;
+    private UserDAO userDAO;
 
     @Override
-    public void init() throws ServletException {
+public void init() throws ServletException {
+    try {
+        Connection conn = DBConnection.getConnection();
         guruDAO = new GuruDAO();
         mapelDAO = new MapelDAO();
         kelasDAO = new KelasDAO();
+        userDAO = new UserDAO(conn); // ← gunakan yang ada!
+    } catch (Exception e) {
+        throw new ServletException("Error initializing DAOs", e);
     }
+}
+
 
     // TAMPILKAN HALAMAN
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        try (Connection conn = DBConnection.getConnection()) {
+            UserDAO userDAO = new UserDAO(conn);
 
-       List<Guru> daftarGuru = guruDAO.getAll();
+        List<Guru> daftarGuru = guruDAO.getAll();
         List<Mapel> daftarMapel = mapelDAO.getAll(); 
         List<Kelas> daftarKelas = kelasDAO.getAll();
+        List<User> daftarUser = userDAO.getAll(); 
 
         request.setAttribute("daftarGuru", daftarGuru);
         request.setAttribute("daftarMapel", daftarMapel);
         request.setAttribute("daftarKelas", daftarKelas);
+        request.setAttribute("daftarUser", daftarUser); 
+        request.setAttribute("userList", daftarUser);
 
         request.getRequestDispatcher("/admin/manajemenGuru.jsp").forward(request, response);
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
     }
 
     // PROSES TAMBAH / HAPUS

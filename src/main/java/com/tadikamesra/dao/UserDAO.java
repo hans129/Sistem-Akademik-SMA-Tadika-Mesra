@@ -1,28 +1,37 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tadikamesra.dao;
-import java.sql.*;
+
+import com.tadikamesra.controller.DBConnection;
 import com.tadikamesra.model.User;
- 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserDAO {
-        private Connection conn;
+    private Connection conn;
 
     public UserDAO(Connection conn) {
         this.conn = conn;
     }
 
+    public UserDAO() {
+    try {
+        this.conn = DBConnection.getConnection();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+
     public User login(String username, String password) throws SQLException {
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setString(1, username);
-        stmt.setString(2, password); // hashing nanti disarankan
+        stmt.setString(2, password); 
         ResultSet rs = stmt.executeQuery();
 
         if (rs.next()) {
             return new User(
-                rs.getInt("user_id"),              // <- disesuaikan
+                rs.getInt("user_id"),
                 rs.getString("username"),
                 rs.getString("password"),
                 rs.getString("role")
@@ -30,4 +39,24 @@ public class UserDAO {
         }
         return null;
     }
+
+            public List<User> getAll() {
+         List<User> list = new ArrayList<>();
+         String sql = "SELECT * FROM users"; 
+
+         try (PreparedStatement stmt = conn.prepareStatement(sql);
+              ResultSet rs = stmt.executeQuery()) {
+
+             while (rs.next()) {
+                 User user = new User();
+                 user.setUserId(rs.getInt("user_id"));
+                 user.setUsername(rs.getString("username"));
+                 user.setRole(rs.getString("role")); 
+                 list.add(user); // ✅ TAMBAHKAN INI
+             }
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+         return list;
+     }
 }

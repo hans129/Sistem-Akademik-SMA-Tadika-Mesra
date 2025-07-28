@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.tadikamesra.model.Guru" %>
 <%@ page import="com.tadikamesra.model.Mapel" %>
@@ -18,7 +19,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Admin</title>
+  <title>Manajemen Guru</title>
 
   <!-- Bootstrap & Font Awesome -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -108,7 +109,7 @@
       <a href="${pageContext.request.contextPath}/admin/beranda" class="nav-item active"><i class="fa-solid fa-house"></i> Beranda</a>
       <a href="#" class="nav-item"><i class="fa-solid fa-envelope"></i> Manajemen Pengumuman</a>
       <a href="#" class="nav-item"><i class="fa-solid fa-calendar-days"></i> Manajemen Jadwal</a>
-      <a href="#" class="nav-item"><i class="fa-solid fa-user-graduate"></i> Manajemen Siswa</a>
+      <a href="${pageContext.request.contextPath}/admin/ManajemenSiswa" class="nav-item"><i class="fa-solid fa-user-graduate"></i> Manajemen Siswa</a>
       <a href="${pageContext.request.contextPath}/admin/manajemenguru" class="nav-item"><i class="fa-solid fa-user-tie"></i> Manajemen Guru</a>
       <a href="#" class="nav-item"><i class="fa-solid fa-file-lines"></i> Manajemen Laporan Akademik</a>
       <a href="#" onclick="return confirmLogout();" class="nav-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
@@ -123,7 +124,7 @@
             <div class="hamburger" onclick="toggleSidebar()">
                 <i class="fa-solid fa-bars"></i>
             </div>
-            <h4 class="mb-0"><i class="fa-sharp fa-solid fa-wrench"></i>Manajemen Guru</h4>
+            <h4 class="mb-0"><i class="fa-sharp fa-solid fa-tools"></i> Manajemen Guru</h4>
             <div>👤 <strong><%= username %></strong></div>
         </div>
 
@@ -138,9 +139,20 @@
                     <div class="col-md-2">
                         <input type="text" class="form-control" name="nip" placeholder="NIP" required>
                     </div>
-                    <div class="col-md-2">
-                        <input type="number" class="form-control" name="user_id" placeholder="User ID" required>
+                    
+                    
+                    <!-- Dropdown User -->
+                    <div class="col-md-3">
+                      <select name="user_id" class="form-select" required>
+                        <option value="">Pilih User</option>
+                        <c:forEach var="user" items="${userList}">
+                          <option value="${user.userId}">${user.role}</option>
+                        </c:forEach>
+                      </select>
                     </div>
+
+                   
+                   
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-primary">Tambah Guru</button>
                     </div>
