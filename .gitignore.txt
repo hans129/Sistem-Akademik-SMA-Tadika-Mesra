@@ -1,0 +1,23 @@
+# Ignore folder build
+target/
+*.class
+*.log
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE files
+*.iml
+*.ipr
+*.iws
+.idea/
+*.swp
+*.swo
+
+# Ignore compiled files
+bin/
+build/
+
+# Maven stuff (if any)
+logs/
