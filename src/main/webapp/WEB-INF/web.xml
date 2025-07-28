@@ -10,62 +10,54 @@
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
 
-    <!-- Servlet untuk Login -->
+    <!-- ✅ Login Servlet -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.tadikamesra.controller.LoginServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
-    
 
-    <!-- Servlet untuk Manajemen Guru -->
-        <servlet>
-            <servlet-name>ManajemenGuruServlet</servlet-name>
-            <servlet-class>com.tadikamesra.controller.ManajemenGuruServlet</servlet-class>
-        </servlet>
-        <servlet-mapping>
-            <servlet-name>ManajemenGuruServlet</servlet-name>
-            <url-pattern>/admin/manajemenguru</url-pattern>
-        </servlet-mapping>
-
-    
-        <!-- Servlet untuk beranda Guru -->
-        <servlet>
-         <servlet-name>BerandaAdminServlet</servlet-name>
-         <servlet-class>com.tadikamesra.controller.BerandaAdminServlet</servlet-class>
-       </servlet>
-       <servlet-mapping>
-         <servlet-name>BerandaAdminServlet</servlet-name>
-         <url-pattern>/admin/beranda</url-pattern>
-       </servlet-mapping>
-
-
-
-    <!-- Filter untuk Autentikasi (Opsional) -->
-    <filter>
-        <filter-name>AuthFilter</filter-name>
-        <filter-class>com.tadikamesra.controller.AuthFilter</filter-class>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
-        <url-pattern>/manajemenGuru</url-pattern>
-    </filter-mapping>
-
-    <!-- Servlet Logout -->
+    <!-- ✅ Logout Servlet -->
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>com.tadikamesra.controller.LogoutServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
+    <!-- ✅ Beranda Admin Servlet -->
+    <servlet>
+        <servlet-name>BerandaAdminServlet</servlet-name>
+        <servlet-class>com.tadikamesra.controller.BerandaAdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BerandaAdminServlet</servlet-name>
+        <url-pattern>/admin/beranda</url-pattern>
+    </servlet-mapping>
+
+    <!-- ✅ Manajemen Guru Servlet -->
+    <servlet>
+        <servlet-name>ManajemenGuruServlet</servlet-name>
+        <servlet-class>com.tadikamesra.controller.ManajemenGuruServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ManajemenGuruServlet</servlet-name>
+        <url-pattern>/admin/manajemenguru</url-pattern>
+    </servlet-mapping>
+
+    <!-- ✅ Auth Filter (untuk semua halaman admin) -->
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>com.tadikamesra.controller.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern> <!-- agar semua servlet admin dicegat filter -->
+    </filter-mapping>
 
 </web-app>

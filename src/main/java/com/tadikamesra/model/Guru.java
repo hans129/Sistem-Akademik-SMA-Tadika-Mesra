@@ -4,10 +4,11 @@ public class Guru {
     private int guruId;
     private String nama;
     private String nip;
-    private int userId; // tambahkan ini jika belum ada
+    private int userId;
 
-    // Constructor
-    public Guru() {}
+    // Constructor kosong
+    public Guru() {
+    }
 
     // Getter dan Setter
     public int getGuruId() {

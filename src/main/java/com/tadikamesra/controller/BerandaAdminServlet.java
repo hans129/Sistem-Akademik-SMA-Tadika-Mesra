@@ -10,30 +10,36 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class BerandaAdminServlet extends HttpServlet {
+
     @Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    DashboardDAO dao = null;
-    try {
-        dao = new DashboardDAO();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-        int countSiswa = dao.getTotalSiswa();
-        int countGuru = dao.getTotalGuru();
-        int countPengumuman = dao.getTotalPengumumanAktif();
-        int countJadwal = dao.getTotalJadwalMingguIni();
-        List<Pengumuman> pengumumanList = dao.getPengumumanTerbaru();
+        try {
+            DashboardDAO dao = new DashboardDAO();
 
-        request.setAttribute("countSiswa", countSiswa);
-        request.setAttribute("countGuru", countGuru);
-        request.setAttribute("countPengumuman", countPengumuman);
-        request.setAttribute("countJadwal", countJadwal);
-        request.setAttribute("pengumumanList", pengumumanList);
+            // Ambil data statistik
+            int countSiswa = dao.getTotalSiswa();
+            int countGuru = dao.getTotalGuru();
+            int countPengumuman = dao.getTotalPengumumanAktif();
+            int countJadwal = dao.getTotalJadwalMingguIni();
 
-    } catch (SQLException e) {
-        e.printStackTrace(); // Sementara log ke console
-        request.setAttribute("error", "Terjadi kesalahan saat mengambil data dashboard.");
+            // Ambil pengumuman terbaru
+            List<Pengumuman> pengumumanList = dao.getPengumumanTerbaru();
+
+            // Set atribut untuk dikirim ke JSP
+            request.setAttribute("countSiswa", countSiswa);
+            request.setAttribute("countGuru", countGuru);
+            request.setAttribute("countPengumuman", countPengumuman);
+            request.setAttribute("countJadwal", countJadwal);
+            request.setAttribute("pengumumanList", pengumumanList);
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Bisa diganti log framework (jika digunakan)
+            request.setAttribute("error", "Terjadi kesalahan saat mengambil data dashboard.");
+        }
+
+        // Arahkan ke halaman dashboard admin
+        request.getRequestDispatcher("/admin/BerandaAdmin.jsp").forward(request, response);
     }
-
-    request.getRequestDispatcher("/admin/BerandaAdmin.jsp").forward(request, response);
-}
-
 }

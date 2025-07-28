@@ -9,25 +9,25 @@ import java.util.List;
 
 public class KelasDAO {
 
-public List<Kelas> getAll() {
-    List<Kelas> list = new ArrayList<>();
-    String sql = "SELECT * FROM kelas";
+    public List<Kelas> getAll() {
+        List<Kelas> list = new ArrayList<>();
+        String sql = "SELECT * FROM kelas";
 
-    try (Connection conn = DBConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
-
-        while (rs.next()) {
-            Kelas kelas = new Kelas();
-            kelas.setKelasId(rs.getInt("kelas_id"));
-            kelas.setNamaKelas(rs.getString("nama_kelas"));
-            list.add(kelas);
+        try (
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()
+        ) {
+            while (rs.next()) {
+                Kelas kelas = new Kelas();
+                kelas.setKelasId(rs.getInt("kelas_id"));
+                kelas.setNamaKelas(rs.getString("nama_kelas"));
+                list.add(kelas);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        e.printStackTrace();
+
+        return list;
     }
-
-    return list;
-}
-
 }

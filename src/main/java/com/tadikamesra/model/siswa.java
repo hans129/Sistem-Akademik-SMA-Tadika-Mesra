@@ -8,18 +8,17 @@ public class Siswa {
     private Integer kelasId;
     private String namaKelas;
 
-    // ✅ Constructor kosong (untuk DAO)
+    // Constructor kosong (untuk DAO)
     public Siswa() {
     }
 
-    // ✅ Constructor isi (untuk insert cepat)
-        public Siswa(String nama, String nis, int kelasId, int userId) {
-           this.nama = nama;
-           this.nis = nis;
-           this.kelasId = kelasId;
-           this.userId = userId;
-       }
-
+    // Constructor isi (untuk insert cepat)
+    public Siswa(String nama, String nis, int kelasId, int userId) {
+        this.nama = nama;
+        this.nis = nis;
+        this.kelasId = kelasId;
+        this.userId = userId;
+    }
 
     // Getter dan Setter
     public int getSiswaId() {

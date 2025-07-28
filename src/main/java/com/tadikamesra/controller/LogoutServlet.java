@@ -1,25 +1,24 @@
 package com.tadikamesra.controller;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-    
-
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
 import java.io.IOException;
 
+@WebServlet("/logout")
 public class LogoutServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         // Hapus session user
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(false); // hindari membuat session baru
         if (session != null) {
             session.invalidate();
         }
 
-        // Arahkan kembali ke halaman login (ubah jika login.jsp kamu ada di folder lain)
+        // Redirect ke halaman login
         response.sendRedirect(request.getContextPath() + "/login.jsp");
     }
 }

@@ -13,16 +13,17 @@ public class GuruDAO {
         List<Guru> list = new ArrayList<>();
         String sql = "SELECT * FROM guru";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
+        try (
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery()
+        ) {
             while (rs.next()) {
                 Guru guru = new Guru();
                 guru.setGuruId(rs.getInt("guru_id"));
                 guru.setNama(rs.getString("nama"));
                 guru.setNip(rs.getString("nip"));
-                guru.setUserId(rs.getInt("user_id")); // Pastikan ini ada!
+                guru.setUserId(rs.getInt("user_id")); // Pastikan field ini ada di tabel
                 list.add(guru);
             }
         } catch (SQLException e) {
@@ -35,9 +36,10 @@ public class GuruDAO {
     public void insert(Guru guru) {
         String sql = "INSERT INTO guru (nama, nip, user_id) VALUES (?, ?, ?)";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+        try (
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
             stmt.setString(1, guru.getNama());
             stmt.setString(2, guru.getNip());
             stmt.setInt(3, guru.getUserId());
@@ -50,9 +52,10 @@ public class GuruDAO {
     public void delete(int guruId) {
         String sql = "DELETE FROM guru WHERE guru_id = ?";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-
+        try (
+            Connection conn = DBConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
             stmt.setInt(1, guruId);
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -60,5 +63,5 @@ public class GuruDAO {
         }
     }
 
-    // Tambahkan update() kalau nanti edit guru
+    // Tambahkan update() kalau nanti diperlukan untuk edit data guru
 }
