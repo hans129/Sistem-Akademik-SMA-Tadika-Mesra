@@ -194,7 +194,7 @@
                     <a href="${pageContext.request.contextPath}/jadwal" class="nav-item"><i class="fa-solid fa-calendar-days"></i> Manajemen Jadwal</a>
                     <a href="#" class="nav-item"><i class="fa-solid fa-user-graduate"></i> Manajemen Siswa</a>
                     <a href="${pageContext.request.contextPath}/admin/guru" class="nav-item"><i class="fa-solid fa-user-tie"></i> Manajemen Guru</a>
-                    <a href="${pageContext.request.contextPath}/admin/ManajemenLaporanAkademik" class="nav-item"><i class="fa-solid fa-file-lines"></i> Manajemen Laporan Akademik</a>
+                    <a href="${pageContext.request.contextPath}/Laporan-Akademik" class="nav-item"><i class="fa-solid fa-file-lines"></i> Manajemen Laporan Akademik</a>
                     <a href="#" class="nav-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
                 </nav>
             </div>
