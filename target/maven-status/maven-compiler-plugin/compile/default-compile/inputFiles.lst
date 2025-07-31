@@ -1,6 +1,8 @@
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\dao\SiswaDAO.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\dao\AdminDAO.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\dao\DashboardDAO.java
+C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\controller\BerandaSiswaServlet.java
+C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\controller\ManajemenPengumumanServlet.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\controller\NilaiServlet.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\dao\JadwalDAO.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\model\Admin.java
@@ -15,16 +17,15 @@ C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\ma
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\model\Jadwal.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\controller\ManajemenGuruServlet.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\mycompany\aplikasi_manajemen_akademik_web\JakartaRestConfiguration.java
-C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\controller\PengumumanServlet.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\controller\LoginServlet.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\model\Kelas.java
-C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\controller\JadwalServlet.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\dao\NilaiDAO.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\model\Guru.java
+C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\controller\BerandaGuruServlet.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\dao\PengumumanDAO.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\controller\KelasServlet.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\util\DBConnection.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\controller\BerandaAdminServlet.java
-C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\model\siswa.java
+C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\model\Siswa.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\tadikamesra\model\Nilai.java
 C:\NetBeansProjects\Sistem-Akademik-SMA-Tadika-Mesra-Moch-Naufal-Ar-Karim\src\main\java\com\mycompany\aplikasi_manajemen_akademik_web\resources\JakartaEE10Resource.java

@@ -12,6 +12,8 @@
         <jakartaee>10.0.0</jakartaee>
     </properties>
     
+
+    
     <dependencies>
         <dependency>
             <groupId>jakarta.platform</groupId>

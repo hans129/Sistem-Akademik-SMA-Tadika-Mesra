@@ -29,6 +29,16 @@
         <url-pattern>/admin/BerandaAdmin</url-pattern>
     </servlet-mapping>
 
+
+<servlet>
+    <servlet-name>ManajemenPengumuman</servlet-name>
+    <servlet-class>com.tadikamesra.controller.ManajemenPengumumanServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ManajemenPengumuman</servlet-name>
+    <url-pattern>/admin/ManajemenPengumuman</url-pattern>
+</servlet-mapping>
+
     <!-- Servlet untuk Manajemen Guru -->
 <servlet>
   <servlet-name>ManajemenGuruServlet</servlet-name>
@@ -49,6 +59,37 @@
         <filter-name>AuthFilter</filter-name>
         <url-pattern>/admin/ManajemenGuru</url-pattern>
     </filter-mapping>
+
+<servlet>
+    <servlet-name>BerandaSiswaServlet</servlet-name>
+    <servlet-class>com.tadikamesra.controller.BerandaSiswaServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>BerandaSiswaServlet</servlet-name>
+    <url-pattern>/siswa/BerandaSiswa</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>JadwalServlet</servlet-name>
+    <servlet-class>com.tadikamesra.controller.JadwalServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>JadwalServlet</servlet-name>
+    <url-pattern>/jadwal-siswa</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>BerandaGuru</servlet-name>
+    <servlet-class>com.tadikamesra.controller.BerandaGuruServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>BerandaGuru</servlet-name>
+    <url-pattern>/guru/BerandaGuru</url-pattern>
+</servlet-mapping>
+
+
 
     <!-- Servlet Logout -->
     <servlet>

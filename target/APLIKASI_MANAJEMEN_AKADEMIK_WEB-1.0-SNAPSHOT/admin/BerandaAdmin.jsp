@@ -118,6 +118,14 @@
             100% { transform: rotate(360deg); }
         }
     
+    .sidebar.hidden {
+    display: none;
+    }
+
+    .main.full {
+    width: 100%;
+    }
+
     .sidebar {
       min-width: 240px;
       height: 100vh;
@@ -127,6 +135,7 @@
       display: flex;
       flex-direction: column;
       scrollbar-width: none;
+      transition: all 0.3s ease;
     }
     .sidebar::-webkit-scrollbar { display: none; }
     .sidebar .brand {
@@ -154,7 +163,7 @@
       width: 20px; text-align: center; font-size: 16px;
     }
 
-    .main { flex: 1; display: flex; flex-direction: column; }
+    .main { flex: 1; display: flex; flex-direction: column; transition: all 0.3s ease;}
     .header {
       height: 60px; background: #fff;
       display: flex; justify-content: space-between;
@@ -244,14 +253,14 @@
     <div id="loader">
   <div class="spinner"></div>
 </div>
-  <div class="sidebar">
+  <div class="sidebar" id="sidebar">
     <div class="brand">
       <img src="${pageContext.request.contextPath}/assets/LogoSTM.png" alt="Logo Tadika Mesra">
       <h1>Tadika<br>Mesra</h1>
     </div>
     <nav>
       <a href="#" class="active"><i class="fa-solid fa-house"></i><span>Beranda</span></a>
-      <a href="#"><i class="fa-solid fa-envelope"></i><span>Manajemen Pengumuman</span></a>
+      <a href="${pageContext.request.contextPath}/admin/ManajemenPengumuman"><i class="fa-solid fa-envelope"></i><span>Manajemen Pengumuman</span></a>
       <a href="#"><i class="fa-solid fa-calendar-days"></i><span>Manajemen Jadwal</span></a>
       <a href="#"><i class="fa-solid fa-user-graduate"></i><span>Manajemen Siswa</span></a>
       <a href="${pageContext.request.contextPath}/admin/ManajemenGuru" class="nav-item"><i class="fa-solid fa-user-tie"></i> Manajemen Guru</a>
@@ -259,9 +268,9 @@
       <a href="#" onclick="return confirmLogout();" class="nav-item"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
     </nav>
   </div>
-  <div class="main">
+  <div class="main" id="main">
     <div class="header">
-      <div class="menu-icon"><i class="fa-solid fa-bars"></i> Dashboard</div>
+      <div class="menu-icon" onclick="toggleSidebar()" style="cursor: pointer;"><i class="fa-solid fa-bars"></i> Dashboard</div>
       <div class="user"><i class="fa-solid fa-user"></i> <%= namaUser %></div>
     </div>
     <div class="content">

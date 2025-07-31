@@ -2,29 +2,16 @@ package com.tadikamesra.controller;
 
 import com.tadikamesra.model.Guru;
 import com.tadikamesra.dao.GuruDAO;
-import com.tadikamesra.util.DBConnection;
+
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.List;
 
-public class ManajemenGuruServlet extends HttpServlet {
-    private GuruDAO guruDAO;
 
-    @Override
-    public void init() throws ServletException {
-        try {
-            Connection conn = DBConnection.getConnection();
-            if (conn == null) {
-                throw new ServletException("Koneksi database null. Pastikan DBConnection berfungsi.");
-            }
-            guruDAO = new GuruDAO(conn);
-        } catch (Exception e) {
-            throw new ServletException("Gagal inisialisasi koneksi database: " + e.getMessage(), e);
-        }
-    }
+public class ManajemenGuruServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -35,7 +22,7 @@ public class ManajemenGuruServlet extends HttpServlet {
             if (idParam != null && !idParam.isEmpty()) {
                 try {
                     int id = Integer.parseInt(idParam);
-                    Guru guru = guruDAO.getById(id);
+                    Guru guru = GuruDAO.getById(id);
                     if (guru != null) {
                         request.setAttribute("guru", guru);
                     }
@@ -45,9 +32,9 @@ public class ManajemenGuruServlet extends HttpServlet {
             }
 
             // Ambil semua data untuk ditampilkan
-            List<Guru> daftarGuru = guruDAO.getAll();
-            List<String> daftarMapel = guruDAO.getAllNamaMapel();
-            List<String> daftarKelas = guruDAO.getAllNamaKelas();
+            List<Guru> daftarGuru = GuruDAO.getAllLengkap();
+            List<String> daftarMapel = GuruDAO.getAllNamaMapel();
+            List<String> daftarKelas = GuruDAO.getAllNamaKelas();
 
             // Kirim ke JSP
             request.setAttribute("daftarGuru", daftarGuru);
@@ -62,49 +49,58 @@ public class ManajemenGuruServlet extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String action = request.getParameter("action");
+@Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    String action = request.getParameter("action");
 
-        try {
-            if ("simpan".equals(action)) {
-                // Ambil data form
-                int id = request.getParameter("id") != null && !request.getParameter("id").isEmpty()
-                        ? Integer.parseInt(request.getParameter("id"))
-                        : 0;
-                String nama = request.getParameter("nama");
-                String nip = request.getParameter("nip");
-                String username = request.getParameter("username");
-                String password = request.getParameter("password");
-                String mapel = request.getParameter("mapel");
-                String waliKelas = request.getParameter("waliKelas");
+    try {
+        if ("simpan".equals(action)) {
+            int id = request.getParameter("id") != null && !request.getParameter("id").isEmpty()
+                    ? Integer.parseInt(request.getParameter("id"))
+                    : 0;
+            String nama = request.getParameter("nama");
+            String nip = request.getParameter("nip");
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            int mapelId = Integer.parseInt(request.getParameter("mapel"));
+            int waliKelasId = Integer.parseInt(request.getParameter("waliKelas"));
 
-                Guru guru = new Guru();
-                guru.setId(id);
-                guru.setNama(nama);
-                guru.setNip(nip);
-                guru.setUsername(username);
-                guru.setPassword(password);
-                guru.setMataPelajaran(mapel);
-                guru.setWaliKelas(waliKelas != null && !waliKelas.isEmpty() ? waliKelas : null);
+            Guru guru = new Guru();
+            guru.setGuruId(id); // GANTI dari setId() ke setGuruId()
+            guru.setNama(nama);
+            guru.setNip(nip);
+            guru.setUserId(0); // bisa kamu isi sesuai logika login
+            guru.setMapelId(mapelId);
+            guru.setWaliKelasId(waliKelasId);
+            guru.setEmail(""); // atau request.getParameter("email") jika disediakan
+            guru.setHp("");    // idem
+            guru.setPendidikan(""); // idem
+            guru.setJabatan("");    // idem
+            guru.setFoto("");       // opsional
 
-                if (id > 0) {
-                    guruDAO.update(guru);
-                } else {
-                    guruDAO.insert(guru);
-                }
-                response.sendRedirect(request.getContextPath() + "/admin/ManajemenGuru");
-            } else if ("delete".equals(action)) {
-                int id = Integer.parseInt(request.getParameter("id"));
-                guruDAO.delete(id);
-                response.sendRedirect(request.getContextPath() + "/admin/ManajemenGuru");
+            // jika username dan password digunakan dalam Tabel Users
+            // pastikan disimpan lewat relasi yang benar di DAO
+
+            if (id > 0) {
+                GuruDAO.update(guru);
             } else {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action tidak dikenali.");
+                GuruDAO.insert(guru);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new ServletException("Gagal memproses POST: " + e.getMessage(), e);
+            response.sendRedirect(request.getContextPath() + "/admin/ManajemenGuru");
+
+        } else if ("delete".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            GuruDAO.delete(id);
+            response.sendRedirect(request.getContextPath() + "/admin/ManajemenGuru");
+
+        } else {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Action tidak dikenali.");
         }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        throw new ServletException("Gagal memproses POST: " + e.getMessage(), e);
     }
+}
 }

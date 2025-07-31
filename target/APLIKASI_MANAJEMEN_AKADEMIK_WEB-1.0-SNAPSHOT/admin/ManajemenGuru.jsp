@@ -80,6 +80,13 @@
         }
 
         /* Sidebar */
+        .sidebar.hidden {
+        display: none;
+        }
+
+        .main.full {
+        width: 100% !important;
+        }
         .sidebar {
             min-width: 240px;
             height: 100vh;
@@ -89,6 +96,7 @@
             display: flex;
             flex-direction: column;
             scrollbar-width: none;
+            transition: all 0.3s ease;
         }
 
         .sidebar .brand {
@@ -132,6 +140,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+            transition: all 0.3s ease;
         }
 
         .header {
@@ -175,14 +184,14 @@
 <div id="loader">
   <div class="spinner"></div>
 </div>
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
     <div class="brand">
         <img src="${pageContext.request.contextPath}/assets/LogoSTM.png" alt="Logo">
         <h1>Tadika<br>Mesra</h1>
     </div>
     <nav>
         <a href="${pageContext.request.contextPath}/admin/BerandaAdmin"><i class="fa-solid fa-house me-2"></i> Beranda</a>
-        <a href="#"><i class="fa-solid fa-envelope me-2"></i> Manajemen Pengumuman</a>
+        <a href="${pageContext.request.contextPath}/admin/ManajemenPengumuman" ><i class="fa-solid fa-envelope me-2"></i> Manajemen Pengumuman</a>
         <a href="#"><i class="fa-solid fa-calendar-days me-2"></i> Manajemen Jadwal</a>
         <a href="#"><i class="fa-solid fa-user-graduate me-2"></i> Manajemen Siswa</a>
         <a href="${pageContext.request.contextPath}/admin/ManajemenGuru" class="active"><i class="fa-solid fa-user-tie me-2"></i> Manajemen Guru</a>
@@ -191,8 +200,8 @@
     </nav>
 </div>
 
-<div class="main">
-    <div class="header">
+<div class="main" id="main">
+    <div class="header" onclick="toggleSidebar()" style="cursor: pointer;">
         <div><i class="fa-solid fa-bars me-2"></i> Manajemen Guru</div>
         <div><i class="fa-solid fa-user me-1"></i> <strong><%= namaUser %></strong></div>
     </div>
@@ -268,7 +277,7 @@
                     <tbody>
                         <c:forEach var="g" items="${daftarGuru}">
                             <tr>
-                                <td>${g.id}</td>
+                                <td>${g.guruId}</td>
                                 <td>${g.nama}</td>
                                 <td>${g.nip}</td>
                                 <td>${g.username}</td>

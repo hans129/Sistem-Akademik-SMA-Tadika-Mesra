@@ -1,255 +1,200 @@
 package com.tadikamesra.dao;
 
 import com.tadikamesra.model.Guru;
+import com.tadikamesra.util.DBConnection;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GuruDAO {
-    private Connection conn;
 
-    public GuruDAO(Connection conn) {
-        this.conn = conn;
-    }
+    public static Guru getGuruByUserId(int userId) {
+        Guru guru = null;
+        String sql = "SELECT g.guru_id, g.user_id, g.nama, g.nip, g.hp, g.email, g.pendidikan, g.jabatan, g.foto, " +
+             "g.mapel_id, m.nama_mapel AS mata_pelajaran, " + // ganti alias
+             "g.wali_kelas_id, k.nama_kelas AS nama_wali_kelas " +
+             "FROM guru g " +
+             "LEFT JOIN mata_pelajaran m ON g.mapel_id = m.mapel_id " +
+             "LEFT JOIN kelas k ON g.wali_kelas_id = k.kelas_id " +
+             "WHERE g.user_id = ?";
 
-public List<Guru> getAll() {
-    List<Guru> list = new ArrayList<>();
-    String sql = "SELECT " +
-                 "g.guru_id, g.nama, g.nip, " +
-                 "u.username, " +
-                 "mp.nama_mapel, " +
-                 "k.nama_kelas " +
-                 "FROM guru g " +
-                 "LEFT JOIN users u ON g.user_id = u.user_id " +
-                 "LEFT JOIN mata_pelajaran mp ON g.mapel_id = mp.mapel_id " +
-                 "LEFT JOIN kelas k ON g.guru_id = k.wali_kelas_id";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-    try (PreparedStatement stmt = conn.prepareStatement(sql);
-         ResultSet rs = stmt.executeQuery()) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
 
-        while (rs.next()) {
-            Guru guru = new Guru();
-            guru.setId(rs.getInt("guru_id"));
-            guru.setNama(rs.getString("nama"));
-            guru.setNip(rs.getString("nip"));
-            guru.setUsername(rs.getString("username"));
-            guru.setMataPelajaran(rs.getString("nama_mapel"));
-            guru.setWaliKelas(rs.getString("nama_kelas"));
-            list.add(guru);
+            if (rs.next()) {
+                guru = extractGuru(rs);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-    } catch (SQLException e) {
-        e.printStackTrace();
+        return guru;
     }
 
-    return list;
-}
-    public List<String> getAllNamaMapel() {
+    public static Guru getById(int id) {
+        Guru guru = null;
+        String sql = "SELECT * FROM guru WHERE guru_id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                guru = extractGuru(rs);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return guru;
+    }
+
+    public static List<Guru> getAll() {
+        List<Guru> list = new ArrayList<>();
+        String sql = "SELECT * FROM guru";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                list.add(extractGuru(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public static List<String> getAllNamaMapel() {
         List<String> list = new ArrayList<>();
-        String sql = "SELECT nama_mapel FROM mata_pelajaran";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
+        String sql = "SELECT nama_mapel FROM mapel";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 list.add(rs.getString("nama_mapel"));
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
 
-    public List<String> getAllNamaKelas() {
+    public static List<String> getAllNamaKelas() {
         List<String> list = new ArrayList<>();
         String sql = "SELECT nama_kelas FROM kelas";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 list.add(rs.getString("nama_kelas"));
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
 
-    public void insert(Guru guru) {
-        String insertUserSql = "INSERT INTO users (username, password, role) VALUES (?, ?, ?)";
-        String insertGuruSql = "INSERT INTO guru (nama, nip, user_id, mapel_id) VALUES (?, ?, ?, ?)";
-        String updateKelasSql = "UPDATE kelas SET wali_kelas_id = ? WHERE nama_kelas = ?";
+// INSERT GURU
+public static void insert(Guru guru) throws Exception {
+    String sql = "INSERT INTO guru (nama, nip, mapel_id, wali_kelas_id, email, hp, pendidikan, jabatan, foto, user_id) "
+               + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try {
-            conn.setAutoCommit(false);
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            int userId = getUserIdByUsername(guru.getUsername(), conn);
-            if (userId == 0) {
-                try (PreparedStatement userStmt = conn.prepareStatement(insertUserSql, Statement.RETURN_GENERATED_KEYS)) {
-                    userStmt.setString(1, guru.getUsername());
-                    userStmt.setString(2, guru.getPassword());
-                    userStmt.setString(3, "guru");
-                    userStmt.executeUpdate();
+        stmt.setString(1, guru.getNama());
+        stmt.setString(2, guru.getNip());
+        stmt.setInt(3, guru.getMapelId());
+        stmt.setInt(4, guru.getWaliKelasId());
+        stmt.setString(5, guru.getEmail());
+        stmt.setString(6, guru.getHp());
+        stmt.setString(7, guru.getPendidikan());
+        stmt.setString(8, guru.getJabatan());
+        stmt.setString(9, guru.getFoto());
+        stmt.setInt(10, guru.getUserId());
 
-                    try (ResultSet rs = userStmt.getGeneratedKeys()) {
-                        if (rs.next()) {
-                            userId = rs.getInt(1);
-                        }
-                    }
-                }
-            }
-
-            int mapelId = getMapelIdByNama(guru.getMataPelajaran(), conn);
-
-            try (PreparedStatement insertStmt = conn.prepareStatement(insertGuruSql, Statement.RETURN_GENERATED_KEYS)) {
-                insertStmt.setString(1, guru.getNama());
-                insertStmt.setString(2, guru.getNip());
-                insertStmt.setInt(3, userId);
-                insertStmt.setInt(4, mapelId);
-                insertStmt.executeUpdate();
-
-                try (ResultSet generatedKeys = insertStmt.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        int guruIdBaru = generatedKeys.getInt(1);
-
-                        try (PreparedStatement updateKelasStmt = conn.prepareStatement(updateKelasSql)) {
-                            updateKelasStmt.setInt(1, guruIdBaru);
-                            updateKelasStmt.setString(2, guru.getWaliKelas());
-                            updateKelasStmt.executeUpdate();
-                        }
-                    }
-                }
-            }
-
-            conn.commit();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            try {
-                conn.rollback();
-            } catch (SQLException rollbackEx) {
-                rollbackEx.printStackTrace();
-            }
-        }
-    }
-    
-    public void update(Guru guru) {
-    String updateGuruSql = "UPDATE guru SET nama = ?, nip = ?, mapel_id = ? WHERE guru_id = ?";
-    String updateUserSql = "UPDATE users SET username = ?, password = ? WHERE user_id = ?";
-    String getUserIdSql = "SELECT user_id FROM guru WHERE guru_id = ?";
-    String updateKelasSql = "UPDATE kelas SET wali_kelas_id = ? WHERE nama_kelas = ?";
-
-    try {
-        conn.setAutoCommit(false);
-
-        int userId = 0;
-        try (PreparedStatement stmt = conn.prepareStatement(getUserIdSql)) {
-            stmt.setInt(1, guru.getId());
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    userId = rs.getInt("user_id");
-                }
-            }
-        }
-
-        try (PreparedStatement stmt = conn.prepareStatement(updateUserSql)) {
-            stmt.setString(1, guru.getUsername());
-            stmt.setString(2, guru.getPassword());
-            stmt.setInt(3, userId);
-            stmt.executeUpdate();
-        }
-
-        int mapelId = getMapelIdByNama(guru.getMataPelajaran(), conn);
-
-        try (PreparedStatement stmt = conn.prepareStatement(updateGuruSql)) {
-            stmt.setString(1, guru.getNama());
-            stmt.setString(2, guru.getNip());
-            stmt.setInt(3, mapelId);
-            stmt.setInt(4, guru.getId());
-            stmt.executeUpdate();
-        }
-
-        try (PreparedStatement stmt = conn.prepareStatement(updateKelasSql)) {
-            stmt.setInt(1, guru.getId());
-            stmt.setString(2, guru.getWaliKelas());
-            stmt.executeUpdate();
-        }
-
-        conn.commit();
-    } catch (SQLException e) {
-        e.printStackTrace();
-        try {
-            conn.rollback();
-        } catch (SQLException rollbackEx) {
-            rollbackEx.printStackTrace();
-        }
+        stmt.executeUpdate();
     }
 }
 
-    public Guru getById(int id) {
-    String sql = "SELECT g.guru_id, g.nama, g.nip, u.username, u.password, mp.nama_mapel, k.nama_kelas " +
-                 "FROM guru g " +
-                 "LEFT JOIN users u ON g.user_id = u.user_id " +
-                 "LEFT JOIN mata_pelajaran mp ON g.mapel_id = mp.mapel_id " +
-                 "LEFT JOIN kelas k ON g.guru_id = k.wali_kelas_id " +
-                 "WHERE g.guru_id = ?";
+// UPDATE GURU
+public static void update(Guru guru) throws Exception {
+    String sql = "UPDATE guru SET nama=?, nip=?, mapel_id=?, wali_kelas_id=?, email=?, hp=?, pendidikan=?, jabatan=?, foto=?, user_id=? "
+               + "WHERE guru_id=?";
 
-    try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, id);
-        try (ResultSet rs = stmt.executeQuery()) {
-            if (rs.next()) {
-                Guru guru = new Guru();
-                guru.setId(rs.getInt("guru_id"));
-                guru.setNama(rs.getString("nama"));
-                guru.setNip(rs.getString("nip"));
-                guru.setUsername(rs.getString("username"));
-                guru.setPassword(rs.getString("password"));
-                guru.setMataPelajaran(rs.getString("nama_mapel"));
-                guru.setWaliKelas(rs.getString("nama_kelas"));
-                return guru;
-            }
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, guru.getNama());
+        stmt.setString(2, guru.getNip());
+        stmt.setInt(3, guru.getMapelId());
+        stmt.setInt(4, guru.getWaliKelasId());
+        stmt.setString(5, guru.getEmail());
+        stmt.setString(6, guru.getHp());
+        stmt.setString(7, guru.getPendidikan());
+        stmt.setString(8, guru.getJabatan());
+        stmt.setString(9, guru.getFoto());
+        stmt.setInt(10, guru.getUserId());
+        stmt.setInt(11, guru.getGuruId()); // ID untuk WHERE clause
+
+        stmt.executeUpdate();
     }
-    return null;
 }
 
-    
-    public void delete(int id) {
+
+    public static void delete(int id) throws SQLException {
         String sql = "DELETE FROM guru WHERE guru_id = ?";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
-    private int getUserIdByUsername(String username, Connection conn) throws SQLException {
-        String sql = "SELECT user_id FROM users WHERE username = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, username);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt("user_id");
-                }
-            }
-        }
-        return 0;
+    private static Guru extractGuru(ResultSet rs) throws SQLException {
+        Guru guru = new Guru();
+        guru.setGuruId(rs.getInt("guru_id"));
+        guru.setUserId(rs.getInt("user_id"));
+        guru.setNama(rs.getString("nama"));
+        guru.setNip(rs.getString("nip"));
+        guru.setHp(rs.getString("hp"));
+        guru.setEmail(rs.getString("email"));
+        guru.setPendidikan(rs.getString("pendidikan"));
+        guru.setJabatan(rs.getString("jabatan"));
+        guru.setFoto(rs.getString("foto"));
+        guru.setMapelId(rs.getInt("mapel_id"));
+        guru.setWaliKelasId(rs.getInt("wali_kelas_id"));
+        
+            // 🟢 Tambahkan baris ini untuk mengisi data tambahan (nama mapel dan nama wali kelas)
+        guru.setNamaMapel(rs.getString("mata_pelajaran"));
+        guru.setNamaWaliKelas(rs.getString("nama_wali_kelas"));
+    
+        return guru;
     }
+    
+    
+    public static List<Guru> getAllLengkap() {
+    List<Guru> list = new ArrayList<>();
+    String sql = "SELECT g.*, m.nama_mapel AS mata_pelajaran, k.nama_kelas AS nama_wali_kelas " +
+                 "FROM guru g " +
+                 "LEFT JOIN mata_pelajaran m ON g.mapel_id = m.mapel_id " +
+                 "LEFT JOIN kelas k ON g.wali_kelas_id = k.kelas_id";
 
-    private int getMapelIdByNama(String namaMapel, Connection conn) throws SQLException {
-        String sql = "SELECT mapel_id FROM mata_pelajaran WHERE nama_mapel = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, namaMapel);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt("mapel_id");
-                }
-            }
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement ps = conn.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            Guru g = extractGuru(rs);
+            g.setMataPelajaran(rs.getString("mata_pelajaran"));
+            g.setWaliKelas(rs.getString("nama_wali_kelas"));
+            list.add(g);
         }
-        return 0;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return list;
+}
+
 }
