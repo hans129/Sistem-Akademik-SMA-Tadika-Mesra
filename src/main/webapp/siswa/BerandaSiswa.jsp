@@ -133,6 +133,13 @@ if (jadwalHariIni == null || jadwalHariIni.isEmpty()) {
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
     html, body { height: 100%; width: 100%; }
     body { display: flex; background: #f5f6f8; overflow: hidden; }
+    
+    html {
+  font-size: 16px;
+    }
+    body {
+  font-size: 1rem;
+    }
 
     #loader {
       position: fixed;
@@ -341,7 +348,9 @@ if (jadwalHariIni == null || jadwalHariIni.isEmpty()) {
     <div class="main" id="main">
       <div class="header">
         <div class="menu-icon" onclick="toggleSidebar()" style="cursor: pointer;"><i class="fa-solid fa-bars"></i> Dashboard</div>
-        <div class="user"><i class="fa-solid fa-user"></i> <%= namaUser %></div>
+        <a href="${pageContext.request.contextPath}/siswa/DataPribadi.jsp" class="active" style="text-decoration: none; color: inherit;">
+            <div class="user"><i class="fa-solid fa-user"></i> <%= namaUser %></div>
+        </a>
       </div>
 
       <div class="content">

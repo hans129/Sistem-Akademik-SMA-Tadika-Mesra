@@ -18,6 +18,7 @@ com\tadikamesra\model\Jadwal.class
 com\tadikamesra\controller\LogoutServlet.class
 com\tadikamesra\controller\LoginServlet.class
 com\tadikamesra\controller\NilaiServlet.class
+com\tadikamesra\controller\UpdateProfilSiswaServlet.class
 com\tadikamesra\controller\BerandaAdminServlet.class
 com\tadikamesra\model\Nilai.class
 com\tadikamesra\controller\BerandaGuruServlet.class
